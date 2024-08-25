@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        #single-product {
+            margin-top: 20px;
+            text-align: start;
+            display: flex;
+        }
+
+        img {
+            width: 600px;
+        }
+
+        .product-images img.active {
+            opacity: 0.5;
+        }
+
+        .btn {
+            padding: 20px;
+            border-radius: 5px;
+            background: none;
+            border: 1px solid #116d31;
+            color: #383838;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 20px 0;
+            text-transform: capitalize;
+        }
+
+        .btn:hover {
+            background: #54e012;
+            color: #fff;
+        }
+
+        .cart-btn:hover {
+            background: #0b7676;
+            color: #fff;
+        }
+
+        #incre,
+        #decre,
+        #counter {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+            width: 5%;
+            height: 50px;
+            cursor: pointer;
+            color: #f0f0f0;
+            background-color: rgb(11, 121, 135);
+        }
+
+        #incre:hover,
+        #decre:hover {
+            background-color: rgb(53, 189, 189);
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        .sections {
+            padding: 30px;
+            display: flex;
+        }
+
+        .prod {
+            padding: 30px;
+        }
+
+        @media screen and (min-width: 268px) {
+
+            #incre,
+            #decre,
+            #counter {
+                width: 40px;
+                height: 48px;
+            }
+
+            .btn {
+                width: 60%;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .prod {
+                flex-basis: 50%;
+            }
+
+            .btn {
+                width: 50%;
+            }
+
+            #incre,
+            #decre,
+            #counter {
+                width: 40px;
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="sections">
+            <div id="single-product"></div>
+            <div class="prod">
+                <div id="products"></div>
+            </div>
+            <div id="cart">
+                <h1>Cart</h1>
+                <h1 id="product-name"></h1>
+                <h3 id="details"></h3>₹
+                <span id="product-price"></span>
+                <br><br>
+                <h2>Add to products</h2>
+                <button id="incre">++</button>
+                <button id="counter">0</button>
+                <button id="decre">--</button><br>
+                <p id="pre"><span id="totalprice"></span></p>
+                <button class="btn cart-btn">add to cart</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = parseInt(urlParams.get('id'));
+        console.log(productId);
+
+        var Products = [
+            {
+                id: 1,
+                img: "https://m.media-amazon.com/images/I/61OBw+XUiuL._SL1000_.jpg",
+                name: "Lava Agni 2 5G",
+                Details: "Lava Agni 2 5G (Glass Viridian, 8GB RAM, 256GB Storage) | India's First Dimensity 7050 Processor | 120 Hz Curved Amoled Display | 13 5G Bands | Superfast 66W Charging | Clean Android",
+                price: 20000,
+            },
+            {
+                id: 2,
+                img: "https://images.samsung.com/is/image/samsung/assets/in/smartphones/galaxy-s23-fe/buy/S23-FE-Color-Selection_Indigo_mo.jpg?imwidth=480",
+                name: "Galaxy S23 Ultra",
+                Details: "Samsung Smartphones – Corporate+ Offers",
+                price: 45000,
+            },
+            {
+                id: 3,
+                img: "https://m.media-amazon.com/images/I/71VW8LmqqPL._SX679_.jpg",
+                Details: "Redmi Note 13 5G (Arctic White, 6GB RAM, 128GB Storage) | 5G Ready | 120Hz Bezel-Less AMOLED | 7.mm Slimmest Note Ever | 108MP Pro-Grade Camera",
+                name: "Redmi 13 5G",
+                price: 12499,
+            },
+            {
+                id: 4,
+                img: "https://m.media-amazon.com/images/I/411IzEa4aaL._SX300_SY300_QL70_FMwebp_.jpg",
+                Details: "Lava O2 (Royal Gold, 8GB RAM, UFS 2.2 128GB Storage) |AG Glass Back|T616 Octacore Processor|18W Fast Charging|6.5 inch 90Hz Punch Hole Display|50MP AI Dual Camera|Upto 16GB Expandable RAM",
+                name: "Lava O2",
+                price: 7999,
+            },
+            {
+                id: 5,
+                img: "https://m.media-amazon.com/images/I/41GsqdiCvOL._SX300_SY300_QL70_FMwebp_.jpg",
+                Details: "Redmi 12 5G Jade Black 6GB RAM 128GB ROM",
+                name: "Redmi 12 5G",
+                price: 12499,
+            },
+            {
+                id: 6,
+                img: "https://www.apple.com/v/iphone/home/bu/images/overview/select/iphone_15_pro__bpnjhcrxofqu_xlarge.png",
+                Details: "The ultimate iPhone.",
+                name: "iPhone 15 Pro",
+                price: 5621,
+            },
+            {
+                id: 7,
+                img: "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1694712772/Croma%20Assets/Communication/Wearable%20Devices/Images/300958_0_oqnn1w.png?tr=w-640",
+                Details: "Apple Watch Series 9 GPS with Light Pink Sport Band - S/M (41mm Display, Pink Aluminium Case)",
+                name: "Apple Watch",
+                price: 14900,
+            },
+            {
+                id: 8,
+                img: "https://www.apple.com/in/watch/images/overview/select/product_s9__b8uw2qgcgw1y_xlarge.png",
+                Details: "Powerful sensors, advanced health features.",
+                name: "Apple Watch Series 9",
+                price: 41900,
+            },
+            {
+                id: 9,
+                img: "https://www.apple.com/in/watch/images/overview/select/product_u2__ebztafh9rvau_xlarge.png",
+                name: "Apple Watch Ultra 2",
+                Details: "The most rugged and capable.",
+                price: 89900.00,
+            },
+        ];
+
+        const product = Products.find(p => p.id === productId);
+
+        if (product) {
+            document.getElementById('product-name').textContent = product.name;
+            const productImage = document.createElement("img");
+            productImage.src = product.img;
+            document.getElementById("products").appendChild(productImage);
+            document.getElementById("product-price").textContent = product.price;
+            document.getElementById("details").textContent = product.Details;
+
+            document.querySelector('.btn.cart-btn').addEventListener('click', function () {
+                if (counterValue > 0) {
+                    alert('Product added to cart successfully!');
+                } else {
+                    alert('Please add products');
+                }
+            });
+        }
+
+        let counterValue = 0;
+
+        function updateCounter() {
+            document.getElementById('counter').textContent = counterValue;
+            const total = counterValue * product.price;
+            document.getElementById("totalprice").innerHTML = "Total Price: ₹" + total.toFixed();
+        }
+
+        document.getElementById('incre').addEventListener('click', function () {
+            counterValue++;
+            updateCounter();
+        });
+
+        document.getElementById('decre').addEventListener('click', function () {
+            if (counterValue > 0) {
+                counterValue--;
+                updateCounter();
+            } else {
+                alert("Please enter a valid value");
+            }
+        });
+    </script>
+</body>
+
+</html>
